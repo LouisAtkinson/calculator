@@ -1,0 +1,24 @@
+* {
+    box-sizing: border-box;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-flow: row dense;
+    height: 300px;
+    width: 300px;
+}
+
+.result {
+    grid-column: 1 / span 4;
+    border-width: 1px 1px 0px 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+.equals {
+    grid-row: 3 / span 4;
+    grid-column: 4;
+}
