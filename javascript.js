@@ -1,7 +1,18 @@
-let display = 0
+let display = 0;
+let firstNum = 0;
+let secondNum = 0;
+let op = 0;
+let answer = 'empty';
+let stored = "";
+let eq = 0;
+
 const result = document.querySelector('.result');
 result.classList.add('result');
 result.textContent = display;
+
+const memory = document.querySelector('.memory');
+memory.classList.add('memory');
+memory.textContent = stored;
 
 const zero = document.getElementById("zero");
 zero.addEventListener("click", function() {
@@ -55,22 +66,22 @@ nine.addEventListener("click", function() {
 
 const add = document.getElementById("add");
 add.addEventListener("click", function() {
-    number(" + ")
+    storage("add"," + ");
 });
 
 const subtract = document.getElementById("subtract");
 subtract.addEventListener("click", function() {
-    number(" - ")
+    storage("subtract"," - ");
 });
 
 const multiply = document.getElementById("multiply");
 multiply.addEventListener("click", function() {
-    number(" x ")
+    storage("multiply"," x ");
 });
 
 const divide = document.getElementById("divide");
 divide.addEventListener("click", function() {
-    number(" ÷ ")
+    storage("divide"," ÷ ");
 });
 
 const decimal = document.getElementById("decimal");
@@ -83,29 +94,122 @@ clear.addEventListener("click", function() {
     number("clear")
 });
 
+const equals = document.getElementById("equals");
+equals.addEventListener("click", function() {
+    eq = "equals";
+    operate(op, firstNum, secondNum);
+});
+
 function number(a) {
     if (Number.isInteger(a) && display === 0) {
         display = a;
     } else if (a === 'clear') {
         display = 0;
+        stored = "";
+    } else if (Number.isInteger(a) && answer != 'empty') {
+        display = a;
+        stored = "";
+        answer = 'empty';
     } else {
         display = "" + display + a
     }
     result.textContent = display;
+    memory.textContent = stored;
+}
+
+function storage(b,c) {
+    if (stored === 'empty') {
+        firstNum = display;
+        op = b;
+        stored = firstNum + c;
+        memory.textContent = stored;
+        display = 0
+        result.textContent = display;
+    } else {
+        op = b;
+        operate(op, firstNum, secondNum);
+    };
 }
 
 
-/* function operate(op, a, b) {
-    if (op === "add") {
-        return a + b;
-    } else if (op === "sub") {
-        return a - b;
-    } else if (op === "mult") {
-        return a * b;
-    } else if (op === "divide") {
-        return a / b;
+function operate(op, a, b) {
+    if (eq === "equals") {
+        if (op === "add") {
+            secondNum = display;
+            answer = parseInt(firstNum) + parseInt(secondNum);
+            result.textContent = answer;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+        } else if (op === "subtract") {
+            secondNum = display;
+            display = parseInt(firstNum) - parseInt(secondNum);
+            result.textContent = display;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+        } else if (op === "multiply") {
+            secondNum = display;
+            display = parseInt(firstNum) * parseInt(secondNum);
+            result.textContent = display;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+            console.log(firstNum);
+        } else if (op === "divide") {
+            secondNum = display;
+            display = parseInt(firstNum) / parseInt(secondNum);
+            result.textContent = display;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+        } else {
+        };
     } else {
-        return "ERROR";
+        if (op === "add") {
+            secondNum = display;
+            firstNum = parseInt(firstNum) + parseInt(secondNum);
+            stored = stored + display + " + ";
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+        } else if (op === "subtract") {
+            secondNum = display;
+            firstNum = parseInt(firstNum) - parseInt(secondNum);
+            stored = stored + display + " - ";
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+        } else if (op === "multiply") {
+            secondNum = display;
+            firstNum = parseInt(firstNum) * parseInt(secondNum);
+            stored = stored + display + " x ";
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+        } else if (op === "divide") {
+            secondNum = display;
+            firstNum = parseInt(firstNum) / parseInt(secondNum);
+            stored = stored + display + " ÷ ";
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+        } else {
+        };
     };
-} */
+}
 
+
+/* else {
+    secondNum = parseInt(display);
+    op = b;
+    stored = stored + display + c;
+    memory.textContent = stored;
+    display = 0
+    result.textContent = display;
+};
+ */
