@@ -1,9 +1,11 @@
 let display = 0;
 let firstNum = 0;
 let secondNum = 0;
+let thirdNum = 'empty';
 let op = 0;
+let prevOp = 0;
 let answer = 'empty';
-let stored = "";
+let stored = '';
 let eq = 0;
 
 const result = document.querySelector('.result');
@@ -105,7 +107,14 @@ function number(a) {
         display = a;
     } else if (a === 'clear') {
         display = 0;
-        stored = "";
+        firstNum = 0;
+        secondNum = 0;
+        thirdNum = 'empty';
+        op = 0;
+        prevOp = 0;
+        answer = 'empty';
+        stored = '';
+        eq = 0;
     } else if (Number.isInteger(a) && answer != 'empty') {
         display = a;
         stored = "";
@@ -118,22 +127,67 @@ function number(a) {
 }
 
 function storage(b,c) {
-    if (stored === 'empty') {
+    if (stored === '') {
         firstNum = display;
         op = b;
         stored = firstNum + c;
         memory.textContent = stored;
-        display = 0
+        display = 0;
         result.textContent = display;
-    } else {
+    } else if (answer != 'empty') {
+        firstNum = answer;
         op = b;
-        operate(op, firstNum, secondNum);
+        stored = firstNum + c;
+        memory.textContent = stored;
+        display = 0;
+        result.textContent = display;
+        answer = 'empty';
+    } else {
+        prevOp = op
+        op = b;
+        console.log(prevOp)
+        if (prevOp === "add") {
+            secondNum = display;
+            thirdNum = parseInt(firstNum) + parseInt(secondNum);
+            stored = stored + secondNum + c;
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+        } else if (prevOp === "subtract") {
+            console.log(firstNum);
+            secondNum = display;
+            thirdNum = parseInt(firstNum) - parseInt(secondNum);
+            stored = stored + secondNum + c;
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+        } else if (prevOp === "multiply") {
+            secondNum = display;
+            thirdNum = parseInt(firstNum) * parseInt(secondNum);
+            stored = stored + secondNum + c;
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+            console.log(firstNum);
+        } else if (prevOp === "divide") {
+            secondNum = display;
+            thirdNum = parseInt(firstNum) / parseInt(secondNum);
+            stored = stored + secondNum + c;
+            memory.textContent = stored;
+            display = 0;
+            result.textContent = display;
+            eq = 0;
+        } else {
+        };
     };
 }
 
 
 function operate(op, a, b) {
-    if (eq === "equals") {
+    if (eq === "equals" && thirdNum === "empty") {
         if (op === "add") {
             secondNum = display;
             answer = parseInt(firstNum) + parseInt(secondNum);
@@ -143,23 +197,55 @@ function operate(op, a, b) {
             eq = 0;
         } else if (op === "subtract") {
             secondNum = display;
-            display = parseInt(firstNum) - parseInt(secondNum);
-            result.textContent = display;
+            answer = parseInt(firstNum) - parseInt(secondNum);
+            result.textContent = answer;
             stored = stored + secondNum;
             memory.textContent = stored;
             eq = 0;
         } else if (op === "multiply") {
             secondNum = display;
-            display = parseInt(firstNum) * parseInt(secondNum);
-            result.textContent = display;
+            answer = parseInt(firstNum) * parseInt(secondNum);
+            result.textContent = answer;
             stored = stored + secondNum;
             memory.textContent = stored;
             eq = 0;
             console.log(firstNum);
         } else if (op === "divide") {
             secondNum = display;
-            display = parseInt(firstNum) / parseInt(secondNum);
-            result.textContent = display;
+            answer = parseInt(firstNum) / parseInt(secondNum);
+            result.textContent = answer;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+        } else {
+        };
+    } else if (eq === "equals" && thirdNum != "empty") {
+        if (op === "add") {
+            secondNum = display;
+            answer = parseInt(thirdNum) + parseInt(secondNum);
+            result.textContent = answer;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+        } else if (op === "subtract") {
+            secondNum = display;
+            answer = parseInt(thirdNum) - parseInt(secondNum);
+            result.textContent = answer;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+        } else if (op === "multiply") {
+            secondNum = display;
+            console.log(thirdNum)
+            answer = parseInt(thirdNum) * parseInt(secondNum);
+            result.textContent = answer;
+            stored = stored + secondNum;
+            memory.textContent = stored;
+            eq = 0;
+        } else if (op === "divide") {
+            secondNum = display;
+            answer = parseInt(thirdNum) / parseInt(secondNum);
+            result.textContent = answer;
             stored = stored + secondNum;
             memory.textContent = stored;
             eq = 0;
@@ -202,7 +288,6 @@ function operate(op, a, b) {
         };
     };
 }
-
 
 /* else {
     secondNum = parseInt(display);
