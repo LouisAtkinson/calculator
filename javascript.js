@@ -136,7 +136,7 @@ function number(a) {
     } else {
         display = "" + display + a;
     }
-    result.textContent = round(display);
+    result.textContent = display;
     memory.textContent = stored;
 }
 

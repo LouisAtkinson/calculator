@@ -16,7 +16,8 @@ button {
     grid-gap: 8px;
     height: 400px;
     width: 400px;
-    margin: 30px 20px;
+    margin: 50px auto;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .screen {
@@ -33,7 +34,7 @@ button {
 
 .result {
     font-size: 34px;
-    font-weight: 500;
+    font-weight: 300;
     padding: 22px 25px;
     align-items: center;
 }
@@ -48,4 +49,17 @@ button {
     grid-row: 3 / span 4;
     grid-column: 4;
     background-color: rgb(255, 187, 60);
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 15px;
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
