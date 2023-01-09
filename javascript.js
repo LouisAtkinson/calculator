@@ -346,7 +346,7 @@ function operate(op, a, b) {
 }
 
 function round(a) {
-    if (Number.isInteger(a)) {
+    if (typeof a === 'number') {
         let rounded = Math.round(a * 1000000000) / 1000000000;
         return rounded;
     }
