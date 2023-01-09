@@ -185,7 +185,7 @@ function storage(b,c) {
         } else if (prevOp === "divide") {
             secondNum = display;
             if (parseFloat(secondNum) === 0) {
-                display = "I cannot divide by 0 :(";
+                display = "ERROR";
                 stored = "";
                 error = 1;
             } else {
@@ -226,7 +226,7 @@ function operate(op, a, b) {
         } else if (op === "divide") {
             secondNum = display;
             if (parseFloat(secondNum) === 0) {
-                display = "I cannot divide by 0 :(";
+                display = "ERROR";
                 stored = "";
                 result.textContent = display;
                 error = 1;
@@ -261,7 +261,7 @@ function operate(op, a, b) {
         } else if (op === "divide") {
             secondNum = display;
             if (parseFloat(secondNum) === 0) {
-                display = "I cannot divide by 0 :(";
+                display = "ERROR";
                 stored = "";
                 result.textContent = display;
                 error = 1;
@@ -291,7 +291,7 @@ function operate(op, a, b) {
             eq = 0;
         } else if (op === "divide") {
             if (parseFloat(secondNum) === 0) {
-                display = "I cannot divide by 0 :(";
+                display = "ERROR";
                 stored = "";
                 result.textContent = display;
                 error = 1;
@@ -328,7 +328,7 @@ function operate(op, a, b) {
         } else if (op === "divide") {
             secondNum = display;
             if (parseFloat(secondNum) === 0) {
-                display = "I cannot divide by 0 :(";
+                display = "ERROR";
                 stored = "";
                 result.textContent = display;
                 error = 1;
