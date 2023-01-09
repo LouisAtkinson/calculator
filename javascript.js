@@ -204,7 +204,7 @@ function storage(b,c) {
 
 function operate(op, a, b) {
     dec = 0;
-    if (eq === "equals" && thirdNum === "empty") {
+    if (eq === "equals" && thirdNum === "empty" && answer === 'empty') {
         if (op === "add") {
             secondNum = display;
             answer = parseFloat(firstNum) + parseFloat(secondNum);
@@ -238,7 +238,7 @@ function operate(op, a, b) {
             }
         } else {
         };
-    } else if (eq === "equals" && thirdNum != "empty") {
+    } else if (eq === "equals" && thirdNum != "empty" && answer === 'empty') {
         if (op === "add") {
             secondNum = display;
             answer = parseFloat(thirdNum) + parseFloat(secondNum);
@@ -270,6 +270,36 @@ function operate(op, a, b) {
             result.textContent = round(answer);
             stored = stored + secondNum;
             eq = 0;
+            }
+        } else {
+        };
+    } else if (eq === 'equals' && answer != 'empty') {
+        if (op === "add") {
+            stored = answer + " + " + secondNum;
+            answer = answer + secondNum;
+            result.textContent = round(answer);
+            eq = 0;
+        } else if (op === "subtract") {
+            stored = answer + " - " + secondNum;
+            answer = answer - secondNum;
+            result.textContent = round(answer);
+            eq = 0;
+        } else if (op === "multiply") {
+            stored = answer + " x " + secondNum;
+            answer = answer * secondNum;
+            result.textContent = round(answer);
+            eq = 0;
+        } else if (op === "divide") {
+            if (parseFloat(secondNum) === 0) {
+                display = "I cannot divide by 0 :(";
+                stored = "";
+                result.textContent = display;
+                error = 1;
+            } else {
+                stored = answer + " ÷ " + secondNum;
+                answer = answer / secondNum;
+                result.textContent = round(answer);
+                eq = 0;
             }
         } else {
         };
