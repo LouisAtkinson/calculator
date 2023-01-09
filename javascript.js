@@ -7,10 +7,12 @@ let prevOp = 0;
 let answer = 'empty';
 let stored = '';
 let eq = 0;
+let dec = 0;
+let error = 0;
 
 const result = document.querySelector('.result');
 result.classList.add('result');
-result.textContent = display;
+result.textContent = round(display);
 
 const memory = document.querySelector('.memory');
 memory.classList.add('memory');
@@ -88,12 +90,15 @@ divide.addEventListener("click", function() {
 
 const decimal = document.getElementById("decimal");
 decimal.addEventListener("click", function() {
-    number(".")
+    if (dec === 0) {
+    number(".");
+    dec = 1;
+    }
 });
 
 const clear = document.getElementById("clear");
 clear.addEventListener("click", function() {
-    number("clear")
+    number("clear");
 });
 
 const equals = document.getElementById("equals");
@@ -103,8 +108,11 @@ equals.addEventListener("click", function() {
 });
 
 function number(a) {
-    if (Number.isInteger(a) && display === 0) {
+    if (Number.isInteger(a) && display === 0 && answer === 'empty') {
         display = a;
+    } else if (Number.isInteger(a) && error === 1) {
+        display = a;
+        error = 0;
     } else if (a === 'clear') {
         display = 0;
         firstNum = 0;
@@ -115,32 +123,41 @@ function number(a) {
         answer = 'empty';
         stored = '';
         eq = 0;
+        dec = 0;
+        error = 0;
     } else if (Number.isInteger(a) && answer != 'empty') {
         display = a;
         stored = "";
         answer = 'empty';
+    } else if (answer != 'empty') {
+        display = "" + 0 + a;
+        stored = "";
+        answer = 'empty';
     } else {
-        display = "" + display + a
+        display = "" + display + a;
     }
-    result.textContent = display;
+    result.textContent = round(display);
     memory.textContent = stored;
 }
 
 function storage(b,c) {
-    if (stored === '') {
+    dec = 0;
+    if (stored === '' && error === 0) {
         firstNum = display;
         op = b;
         stored = firstNum + c;
-        memory.textContent = stored;
         display = 0;
-        result.textContent = display;
+    } else if (error === 1) {
+        firstNum = 0;
+        op = b;
+        stored = firstNum + c;
+        error = 0;
+        display = 0;
     } else if (answer != 'empty') {
         firstNum = answer;
         op = b;
         stored = firstNum + c;
-        memory.textContent = stored;
         display = 0;
-        result.textContent = display;
         answer = 'empty';
     } else {
         prevOp = op
@@ -148,153 +165,159 @@ function storage(b,c) {
         console.log(prevOp)
         if (prevOp === "add") {
             secondNum = display;
-            thirdNum = parseInt(firstNum) + parseInt(secondNum);
+            thirdNum = parseFloat(firstNum) + parseFloat(secondNum);
             stored = stored + secondNum + c;
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
             eq = 0;
         } else if (prevOp === "subtract") {
             console.log(firstNum);
             secondNum = display;
-            thirdNum = parseInt(firstNum) - parseInt(secondNum);
+            thirdNum = parseFloat(firstNum) - parseFloat(secondNum);
             stored = stored + secondNum + c;
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
             eq = 0;
         } else if (prevOp === "multiply") {
             secondNum = display;
-            thirdNum = parseInt(firstNum) * parseInt(secondNum);
+            thirdNum = parseFloat(firstNum) * parseFloat(secondNum);
             stored = stored + secondNum + c;
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
             eq = 0;
-            console.log(firstNum);
         } else if (prevOp === "divide") {
             secondNum = display;
-            thirdNum = parseInt(firstNum) / parseInt(secondNum);
+            if (parseFloat(secondNum) === 0) {
+                display = "I cannot divide by 0 :(";
+                stored = "";
+                error = 1;
+            } else {
+            thirdNum = parseFloat(firstNum) / parseFloat(secondNum);
             stored = stored + secondNum + c;
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
             eq = 0;
+            }
         } else {
         };
     };
+    memory.textContent = stored;
+    result.textContent = round(display)
 }
 
 
 function operate(op, a, b) {
+    dec = 0;
     if (eq === "equals" && thirdNum === "empty") {
         if (op === "add") {
             secondNum = display;
-            answer = parseInt(firstNum) + parseInt(secondNum);
-            result.textContent = answer;
+            answer = parseFloat(firstNum) + parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
         } else if (op === "subtract") {
             secondNum = display;
-            answer = parseInt(firstNum) - parseInt(secondNum);
-            result.textContent = answer;
+            answer = parseFloat(firstNum) - parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
         } else if (op === "multiply") {
             secondNum = display;
-            answer = parseInt(firstNum) * parseInt(secondNum);
-            result.textContent = answer;
+            answer = parseFloat(firstNum) * parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
-            console.log(firstNum);
         } else if (op === "divide") {
             secondNum = display;
-            answer = parseInt(firstNum) / parseInt(secondNum);
-            result.textContent = answer;
+            if (parseFloat(secondNum) === 0) {
+                display = "I cannot divide by 0 :(";
+                stored = "";
+                result.textContent = display;
+                error = 1;
+            } else {
+            answer = parseFloat(firstNum) / parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
+            }
         } else {
         };
     } else if (eq === "equals" && thirdNum != "empty") {
         if (op === "add") {
             secondNum = display;
-            answer = parseInt(thirdNum) + parseInt(secondNum);
-            result.textContent = answer;
+            answer = parseFloat(thirdNum) + parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
         } else if (op === "subtract") {
             secondNum = display;
-            answer = parseInt(thirdNum) - parseInt(secondNum);
-            result.textContent = answer;
+            answer = parseFloat(thirdNum) - parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
         } else if (op === "multiply") {
             secondNum = display;
             console.log(thirdNum)
-            answer = parseInt(thirdNum) * parseInt(secondNum);
-            result.textContent = answer;
+            answer = parseFloat(thirdNum) * parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
         } else if (op === "divide") {
             secondNum = display;
-            answer = parseInt(thirdNum) / parseInt(secondNum);
-            result.textContent = answer;
+            if (parseFloat(secondNum) === 0) {
+                display = "I cannot divide by 0 :(";
+                stored = "";
+                result.textContent = display;
+                error = 1;
+            } else {
+            answer = parseFloat(thirdNum) / parseFloat(secondNum);
+            result.textContent = round(answer);
             stored = stored + secondNum;
-            memory.textContent = stored;
             eq = 0;
+            }
         } else {
         };
     } else {
         if (op === "add") {
             secondNum = display;
-            firstNum = parseInt(firstNum) + parseInt(secondNum);
+            firstNum = parseFloat(firstNum) + parseFloat(secondNum);
             stored = stored + display + " + ";
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
+            result.textContent = round(display);
             eq = 0;
         } else if (op === "subtract") {
             secondNum = display;
-            firstNum = parseInt(firstNum) - parseInt(secondNum);
+            firstNum = parseFloat(firstNum) - parseFloat(secondNum);
             stored = stored + display + " - ";
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
+            result.textContent = round(display);
             eq = 0;
         } else if (op === "multiply") {
             secondNum = display;
-            firstNum = parseInt(firstNum) * parseInt(secondNum);
+            firstNum = parseFloat(firstNum) * parseFloat(secondNum);
             stored = stored + display + " x ";
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
+            result.textContent = round(display);
             eq = 0;
         } else if (op === "divide") {
             secondNum = display;
-            firstNum = parseInt(firstNum) / parseInt(secondNum);
+            if (parseFloat(secondNum) === 0) {
+                display = "I cannot divide by 0 :(";
+                stored = "";
+                result.textContent = display;
+                error = 1;
+            } else {
+            firstNum = parseFloat(firstNum) / parseFloat(secondNum);
             stored = stored + display + " ÷ ";
-            memory.textContent = stored;
             display = 0;
-            result.textContent = display;
+            result.textContent = round(display);
             eq = 0;
+            }
         } else {
         };
     };
+    memory.textContent = stored;
 }
 
-/* else {
-    secondNum = parseInt(display);
-    op = b;
-    stored = stored + display + c;
-    memory.textContent = stored;
-    display = 0
-    result.textContent = display;
-};
- */
+function round(a) {
+    if (Number.isInteger(a)) {
+        let rounded = Math.round(a * 1000000000) / 1000000000;
+        return rounded;
+    }
+}
