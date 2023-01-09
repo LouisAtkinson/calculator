@@ -276,17 +276,17 @@ function operate(op, a, b) {
     } else if (eq === 'equals' && answer != 'empty') {
         if (op === "add") {
             stored = answer + " + " + secondNum;
-            answer = answer + secondNum;
+            answer = parseFloat(answer) + parseFloat(secondNum);
             result.textContent = round(answer);
             eq = 0;
         } else if (op === "subtract") {
             stored = answer + " - " + secondNum;
-            answer = answer - secondNum;
+            answer = parseFloat(answer) - parseFloat(secondNum);
             result.textContent = round(answer);
             eq = 0;
         } else if (op === "multiply") {
             stored = answer + " x " + secondNum;
-            answer = answer * secondNum;
+            answer = parseFloat(answer) * parseFloat(secondNum);
             result.textContent = round(answer);
             eq = 0;
         } else if (op === "divide") {
@@ -297,7 +297,7 @@ function operate(op, a, b) {
                 error = 1;
             } else {
                 stored = answer + " ÷ " + secondNum;
-                answer = answer / secondNum;
+                answer = parseFloat(answer) / parseFloat(secondNum);
                 result.textContent = round(answer);
                 eq = 0;
             }
