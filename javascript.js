@@ -147,39 +147,44 @@ function storage(b,c) {
         op = b;
         stored = firstNum + c;
         display = 0;
+        result.textContent = round(display);
     } else if (error === 1) {
         firstNum = 0;
         op = b;
         stored = firstNum + c;
         error = 0;
         display = 0;
+        result.textContent = round(display);
     } else if (answer != 'empty') {
         firstNum = answer;
         op = b;
         stored = firstNum + c;
         display = 0;
         answer = 'empty';
+        result.textContent = round(display);
     } else {
         prevOp = op
         op = b;
         console.log(prevOp)
         if (prevOp === "add") {
             secondNum = display;
-            thirdNum = parseFloat(firstNum) + parseFloat(secondNum);
-            stored = stored + secondNum + c;
+            firstNum = parseFloat(firstNum) + parseFloat(secondNum);
+            stored = firstNum + c;
+            result.textContent = round(firstNum);
             display = 0;
             eq = 0;
         } else if (prevOp === "subtract") {
-            console.log(firstNum);
             secondNum = display;
-            thirdNum = parseFloat(firstNum) - parseFloat(secondNum);
-            stored = stored + secondNum + c;
+            firstNum = parseFloat(firstNum) - parseFloat(secondNum);
+            stored = firstNum + c;
+            result.textContent = round(firstNum);
             display = 0;
             eq = 0;
         } else if (prevOp === "multiply") {
             secondNum = display;
-            thirdNum = parseFloat(firstNum) * parseFloat(secondNum);
-            stored = stored + secondNum + c;
+            firstNum = parseFloat(firstNum) * parseFloat(secondNum);
+            stored = firstNum + c;
+            result.textContent = round(firstNum);
             display = 0;
             eq = 0;
         } else if (prevOp === "divide") {
@@ -189,16 +194,17 @@ function storage(b,c) {
                 stored = "";
                 error = 1;
             } else {
-            thirdNum = parseFloat(firstNum) / parseFloat(secondNum);
-            stored = stored + secondNum + c;
-            display = 0;
-            eq = 0;
+                firstNum = parseFloat(firstNum) / parseFloat(secondNum);
+                stored = firstNum + c;
+                result.textContent = round(firstNum);
+                display = 0;
+                eq = 0;
             }
         } else {
         };
     };
     memory.textContent = stored;
-    result.textContent = round(display)
+    
 }
 
 
