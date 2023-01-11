@@ -85,9 +85,11 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-    margin: 15px;
+    width: 100%;
+    padding: 8px;
     font-size: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #faf3dd
 }
 
 /* Colour palette from 
