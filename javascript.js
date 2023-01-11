@@ -315,8 +315,8 @@ function operate(op, a, b) {
             secondNum = display;
             firstNum = parseFloat(firstNum) - parseFloat(secondNum);
             stored = stored + display + " - ";
-            display = 0;
             result.textContent = round(display);
+            display = 0;
             eq = 0;
         } else if (op === "multiply") {
             secondNum = display;
